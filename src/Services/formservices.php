@@ -7,14 +7,11 @@ use PDO;
 class TicketService {
     private $helpRepo;
 
-    // On lui passe le Repository par injection de dépendance
+
     public function __construct(HelpRequestRepository $helpRepo) {
         $this->helpRepo = $helpRepo;
     }
 
-    /**
-     * Vérifie si l'utilisateur est connecté, sinon le redirige
-     */
     public function checkAuth(): void {
         if (!isset($_SESSION['user_id'])) {
             header("Location: login.php");
@@ -22,13 +19,10 @@ class TicketService {
         }
     }
 
-    /**
-     * Traite la soumission du formulaire
-     * @return string|null Retourne un message d'erreur s'il y en a une, sinon null
-     */
+
     public function handleSubmission(array $postData): ?string {
         if (!isset($postData['submit_question'])) {
-            return null; // Le formulaire n'a pas été soumis
+            return null; 
         }
 
         $title = trim($postData['title'] ?? '');
@@ -36,7 +30,7 @@ class TicketService {
         $skill_id = filter_var($postData['skill_id'] ?? null, FILTER_VALIDATE_INT);
         $student_id = $_SESSION['user_id'] ?? null;
 
-        // Validation des champs
+
         if (empty($title) || empty($description) || !$skill_id) {
             return "Veuillez remplir tous les champs correctement.";
         }

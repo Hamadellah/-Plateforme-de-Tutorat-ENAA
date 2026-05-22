@@ -2,23 +2,29 @@
 session_start();
 
 require_once __DIR__ . '/../src/Repositories/HelpRequestRepository.php';
+require_once __DIR__ . '/../src/Repositories/SkillRepository.php'; // <-- Nouveau
 require_once __DIR__ . '/../src/Services/formservices.php';
 
 use App\Repositories\HelpRequestRepository;
+use App\Repositories\SkillRepository;
 use App\Services\TicketService;
 
 $db = new PDO("mysql:host=localhost;dbname=ENAA;charset=utf8", "root", "123456");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $helpRepo = new HelpRequestRepository($db);
+$skillRepo = new SkillRepository($db); // <-- Nouveau
+
+
 $ticketService = new TicketService($helpRepo);
 
 
 $ticketService->checkAuth();
 
+
 $error = $ticketService->handleSubmission($_POST);
 
-$skills = $db->query("SELECT * FROM skills")->fetchAll(PDO::FETCH_ASSOC);
+$skills = $skillRepo->getAllSkills(); 
 ?>
 <!DOCTYPE html>
 <html lang="fr" class="dark">
