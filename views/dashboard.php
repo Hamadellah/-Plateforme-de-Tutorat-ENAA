@@ -4,7 +4,6 @@ require_once __DIR__ . '/../src/Repositories/HelpRequestRepository.php';
 use App\Repositories\HelpRequestRepository;
 use Services\Connection;
 session_start();
-
 $db = Connection::getConnection();
 $helpRequestRepo = new HelpRequestRepository($db);    
 

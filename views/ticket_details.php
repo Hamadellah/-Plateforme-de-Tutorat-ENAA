@@ -1,19 +1,24 @@
 <?php
-session_start();
+// 1. Dima ndmro s-session hya l-owwla
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+// 2. Vérification s-sarima: ila makanch user_id f s-session, rj3o l-login direct
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    header("Location: login.php"); 
     exit();
 }
 
 require_once __DIR__ . '/../src/Repositories/HelpRequestRepository.php';
 use App\Repositories\HelpRequestRepository;
 
+// Connexion l BDD
 $db = new PDO("mysql:host=localhost;dbname=ENAA;charset=utf8", "root", "123456");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $helpRepo = new HelpRequestRepository($db);
 
-// 1. Kan-jibou l-ID men l-URL
+// 3. Jib l-ID dyal l-ticket mn l-URL
 $requestId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$requestId) {
     header("Location: dashboard.php");
@@ -22,22 +27,23 @@ if (!$requestId) {
 
 $request = $helpRepo->getRequestById($requestId);
 if (!$request) {
-    die("Had l-ticket ma kaynch.");
+    die("Had l-ticket ma kaynch f l-BDD.");
 }
 
-// 2. Mlli l-tuteur kay-cliqui 3la l-bouton "Aider"
+// 4. Mlli l-tuteur kay-cliqui 3la l-bouton "Aider"
 if (isset($_POST['accept_help'])) {
-    $currentUserId = $_SESSION['user_id'];
     
-   
-    if ($currentUserId == $request['student_id']) {
-        $error = "Ma ymknch t-3awn rassk a sa7bi !";
-    } if ($request['tutor_id']) {
-        // Hna kan-génériw lien unique dynamic 3la hssab l-ticket
+    // Hna l-ID dba safe 7it dznna mn l-vérification dyal l-foq
+    $currentUserId = (int)$_SESSION['user_id']; 
+    
+    // Vérification dyal "Ma t3awnch rassk"
+    if ($currentUserId === (int)$request['student_id']) {
+        $error = "Ma ymknch t-3awn rassk a sa7bi!";
+    } else {
+        // Génération dyal l-link dynamic
         $generatedLink = "https://meet.jit.si/ENAA-Tutorat-" . $requestId . "-" . uniqid();
 
         if ($helpRepo->acceptRequest($requestId, $currentUserId, $generatedLink)) {
-            // Actualiser l-page bach n-choufou l-lien jdid
             header("Location: ticket_details.php?id=" . $requestId . "&success=1");
             exit();
         } else {

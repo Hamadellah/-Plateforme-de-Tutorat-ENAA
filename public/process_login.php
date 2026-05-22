@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $service->login($email, $password);
     if ($user) {
         $_SESSION['user']= $user;
+        $_SESSION['user_id'] = $user['id'];
 
         if (isset($user['label_role']) && $user['label_role'] === 'Étudiant') {
 
