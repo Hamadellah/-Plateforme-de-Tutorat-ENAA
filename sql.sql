@@ -91,9 +91,9 @@ INSERT INTO skills (name) VALUES
 
 -- 4. Insertion des Utilisateurs (Users)
 INSERT INTO users (nom, prenom, email, password, points, label_role) VALUES 
-('Alaoui', 'Yassine', 'yassine@email.com', 'pass123', 50, 'Étudiant'),
-('Bennani', 'Sara', 'sara@email.com', 'secure456', 200, 'Tuteur'),
-('Rami', 'Omar', 'omar@email.com', 'admin789', 0, 'Administrateur');
+('Alaoui', 'Yassine', 'yassine1@email.com', '123', 50, 'Étudiant'),
+('Bennani', 'Sara', 'sara1@email.com', 'secure456', 200, 'Tuteur'),
+('Rami', 'Omar', 'omar1@email.com', 'admin789', 0, 'Administrateur');
 
 -- 5. Attribution de Badges aux Utilisateurs (User_Badges)
 INSERT INTO user_badges (user_id, badge_id, awarded_at) VALUES 
@@ -127,4 +127,6 @@ JOIN users u ON hr.student_id = u.id
 JOIN skills s ON hr.skill_id = s.id
 ORDER BY hr.id DESC;
 INSERT INTO help_requests (title, description, status, student_id, tutor_id, skill_id) 
-                VALUES ("othmane", "othmane", "othmane", "1", NULL, "1")
+                VALUES ("othmane", "othmane", "othmane", "1", NULL, "1");
+ALTER TABLE help_requests 
+ADD COLUMN run_link VARCHAR(255) NULL AFTER skill_id;

@@ -132,8 +132,9 @@ $requests = $helpRequestRepo->getAllActiveRequests();
                             <!-- Section Infos / Droite -->
                             <div class="flex-1 min-w-0">
                                 <h3 class="text-lg font-semibold text-white hover:text-purple-400 transition-colors mb-2">
-                                    <a href="ticket_detail.php?id=<?= $request['id'] ?>"><?= htmlspecialchars($request['title']) ?></a>
-                                </h3>
+<a href="ticket_details.php?id=<?= $request['id'] ?>" class="text-purple-400 hover:text-purple-300 font-medium">
+    <?= htmlspecialchars($request['title']) ?>
+</a>                                </h3>
                                 <p class="text-gray-400 text-sm line-clamp-2 mb-4">
                                     <?= htmlspecialchars($request['description']) ?>
                                 </p>
