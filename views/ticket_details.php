@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 2. Vérification s-sarima: ila makanch user_id f s-session, rj3o l-login direct
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
     header("Location: login.php"); 
     exit();
@@ -13,12 +12,10 @@ if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
 require_once __DIR__ . '/../src/Repositories/HelpRequestRepository.php';
 use App\Repositories\HelpRequestRepository;
 
-// Connexion l BDD
 $db = new PDO("mysql:host=localhost;dbname=ENAA;charset=utf8", "root", "123456");
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $helpRepo = new HelpRequestRepository($db);
 
-// 3. Jib l-ID dyal l-ticket mn l-URL
 $requestId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$requestId) {
     header("Location: dashboard.php");
@@ -30,17 +27,13 @@ if (!$request) {
     die("Had l-ticket ma kaynch f l-BDD.");
 }
 
-// 4. Mlli l-tuteur kay-cliqui 3la l-bouton "Aider"
 if (isset($_POST['accept_help'])) {
     
-    // Hna l-ID dba safe 7it dznna mn l-vérification dyal l-foq
     $currentUserId = (int)$_SESSION['user_id']; 
     
-    // Vérification dyal "Ma t3awnch rassk"
     if ($currentUserId === (int)$request['student_id']) {
         $error = "Ma ymknch t-3awn rassk a sa7bi!";
     } else {
-        // Génération dyal l-link dynamic
         $generatedLink = "https://meet.jit.si/ENAA-Tutorat-" . $requestId . "-" . uniqid();
 
         if ($helpRepo->acceptRequest($requestId, $currentUserId, $generatedLink)) {

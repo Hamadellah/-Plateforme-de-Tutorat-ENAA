@@ -56,15 +56,13 @@ class HelpRequestRepository {
     return $result ? $result : null;
 }
 
-/**
- * Kat-sifet l-ID dyal l-tuteur, kat-baddel l-statut l 'En cours', w kat-creeyi l-lien
- */
+
 public function acceptRequest(int $requestId, int $tutorId, string $runLink): bool {
     $sql = "UPDATE help_requests 
             SET tutor_id = :tutor_id, 
                 status = 'En cours', 
                 run_link = :run_link 
-            WHERE id = :id AND tutor_id IS NULL"; // 'IS NULL' bach may-ji7ch tuteur akhor y-chffr l-ticket
+            WHERE id = :id AND tutor_id IS NULL"; 
             
     $stmt = $this->db->prepare($sql);
     return $stmt->execute([

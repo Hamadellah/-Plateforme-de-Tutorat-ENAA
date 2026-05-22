@@ -17,5 +17,5 @@ class HelpRequest {
         $this->updated_at = $updated_at;
     }
 
-    // Getters and Setters
+
 }

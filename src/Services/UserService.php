@@ -5,7 +5,7 @@ namespace Services;
 use App\Repositories\UserRepository; 
 
 class UserService {
-    private $repo; // f PHP 7.4+, type hinting khass ykun l-class m-importi mzian
+    private $repo; 
 
     public function __construct($repo) {
         $this->repo = $repo;

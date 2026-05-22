@@ -123,7 +123,7 @@ $requests = $helpRequestRepo->getAllActiveRequests();
                                     </div>
                                 <?php else: ?>
                                     <div class="border border-green-500/30 bg-green-500/10 text-green-400 rounded-lg p-2 w-full text-xs font-semibold uppercase tracking-wider">
-                                        Résolu
+                                        <?php echo $request['status'] === 'RESOLVED' ? 'Résolu' : htmlspecialchars($request['status']); ?>
                                     </div>
                                 <?php endif; ?>
                             </div>

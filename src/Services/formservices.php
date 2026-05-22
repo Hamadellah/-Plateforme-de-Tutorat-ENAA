@@ -39,7 +39,6 @@ class TicketService {
             return "Erreur : Vous devez être connecté pour poser une question.";
         }
 
-        // Préparation des données pour le repository
         $requestData = [
             'title'        => $title,
             'description'  => $description,

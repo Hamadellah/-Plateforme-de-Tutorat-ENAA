@@ -10,10 +10,7 @@ class SkillRepository {
         $this->db = $db;
     }
 
-    /**
-     * Récupère toutes les compétences triées par nom
-     * @return array
-     */
+
     public function getAllSkills(): array {
         $sql = "SELECT id, name FROM skills ORDER BY name ASC";
         $stmt = $this->db->query($sql);
